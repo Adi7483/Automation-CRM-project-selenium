@@ -7,8 +7,54 @@ class ClientsPage {
         await this.selenium.getURL("https://lh-crm.herokuapp.com/client")
         }
         
-    //The function search some input- name/country/email/owner/sold option/email type, and check if there result    
+    //The function insert first & last name and search the result name in the client page
     async searchAndValidateClient(input, searchBy){
+        try {
+        //insert an input into the search  
+        await this.selenium.sleep(2000)
+        await this.selenium.write(input, "css", ".search-clients input:nth-child(1)")
+        await this.selenium.write(searchBy, "className", "select-css")        
+        //check if there is any result in client search
+        let findClient = await this.selenium.isElementExists("className", "clientDetails")
+        //if true, find all the result & take the text from each one
+        let arrResultName = []
+        if(findClient){
+            let findResult = await this.selenium.findElementListBy("className", "clientDetails")
+            for(let i of findResult){
+                let getTextResult = await this.selenium.getTextFromElement("className", "clientDetails", i)
+                //the result is one long string, so get only specific text, in this case only first and last name
+                let getTextSpecific = getTextResult.split(' ').slice(0,2).join(' ')
+                //push the text into array
+                arrResultName.push(getTextSpecific)   
+            }
+        }
+        //check if the text in the result is the same text in the input was insert
+        let flag = true
+        for(let x = 0; x < arrResultName.length -1; x++){
+            if(arrResultName[x] == input){
+                flag = true
+            }
+            else{
+                flag = false
+            }
+        }
+        //if all the result is the same as the input, return true, else return false
+        if (flag == true){
+            console.log(`ALL the result in page:${arrResultName} are the same as the input was insert: ${input}`)
+            return true
+        }
+        else{
+            console.error(`NOT all the result in page:${arrResultName} are the same as the input was insert: ${input}`)
+            return false
+        }
+        } catch (error) {
+            console.error(`get error while try to search and validate: ${input}`)
+        }
+        return false
+    }
+
+    //The function check if email type that was insert is the same as the result  
+    async searchAndValidateClientDetais(input, searchBy, inputEmail){
         try {
         //insert an input into the search  
         await this.selenium.sleep(2000)
@@ -17,50 +63,23 @@ class ClientsPage {
                
         //check if there is any result in client search
         let findClient = await this.selenium.isElementExists("className", "clientDetails")
-
-        //if true, find all the result & take the text from each one
         if(findClient){
-            let findAllClientResualt = await this.selenium.findElementListBy("className", "clientDetails")
-            for(let i of findAllClientResualt){
-                let getClientInfo = await this.selenium.getTextFromElement("className", "clientDetails", i)
-                    console.log(`True! the client name:${input} exist in the page: ${getClientInfo}`)
+            //get the text from email type
+            let emailType = await this.selenium.getTextFromElement("css", ".clientDetails th:nth-child(8)")
+            //check if the result is the same as the input
+            if(emailType == inputEmail){
+                return true
+            }
+            else{
+                return false
             }
         }
         else{
-            console.log(`ERROR: there is no such client with this input: ${input}`)
-        }
-        console.log("success to search and validate")  
-        return input
+            console.log("There is no result in the page")
+            }
         } catch (error) {
             console.error(`get error while try to search and validate: ${input}`)
         }
-        return false
-    }
-
-    //The function search some input, print specific word from result, instead the all string result
-    async getResultOfSpecificInput(input, searchBy){
-        try {
-            
-        //insert an input into the search 
-        await this.selenium.write(input, "css", ".search-clients input:nth-child(1)")
-        await this.selenium.write(searchBy, "className", "select-css")  
-
-        //loop over the client details result and get each word seperated and push it to array
-        let i = 1
-        let arrayOfResult = []
-        while(i < 8){
-            let text = await this.selenium.getTextFromElement("css", `.clientDetails th:nth-child(${i})`)
-            i++
-            arrayOfResult.push(text)
-        }
-        let success = arrayOfResult[0]
-        console.log(arrayOfResult[0])
-        console.log("success to get result of specific word")
-        return success
-         } catch (error) {
-            console.error(`get error while try to get result of specific word with input of: ${input}`)
-        }
-        return false
     }
 
     //The function click on specific client and update his details
@@ -122,13 +141,15 @@ class ClientsPage {
         let isNewNameExist = await this.selenium.isElementExists("className", "clientDetails")
         let findNewName = await this.selenium.getTextFromElement("css", ".clientDetails th:nth-child(1)")
         findNewName = findNewName.toLowerCase()
+            //check if the new name after the update is exist 
             if(isNewNameExist && updateName == findNewName){
-            console.log(`success! the input was insert: ${updateName} is the same as the result: ${findNewName}`)
+            console.log(`success! the new input was insert after the update: ${updateName}, is the same as the result: ${findNewName}`)
+            return true
         }
         else{
             console.log("ERROR: with this details there are no such client")
+            return false
             }
-        console.log("success to click on client and update his details")
         
         } catch (error) {
             console.error("get error while try to click and update a client")

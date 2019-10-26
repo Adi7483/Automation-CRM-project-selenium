@@ -33,22 +33,21 @@ class ActionsPage{
             if(findPopUpSuccess){
                 let getPopUpSuccess = await this.selenium.getTextFromElement("css", ".success-pop-up")
                 console.log(`The pop up message: ${getPopUpSuccess}`)
+                return true
             }
             else if(findPopUpError){
                 let getPopUpError = await this.selenium.getTextFromElement("css", ".error-pop-up")
                 console.log(`The pop up message: ${getPopUpError}`)
+                return false
             }
-             console.log("success to update client") 
             } catch (error) {
                 console.error("get error while try to update client")
             }
-        
         }
 
         //The function ADD new client to the client page
         async addNewClient(firstName, lastName, country, owners, email){
             try {
-             
             //insert all details: first and last name, country, owners and email
             await this.selenium.write(firstName, "id", "firstName")
             await this.selenium.write(lastName, "id", "lastName")
@@ -56,6 +55,7 @@ class ActionsPage{
             await this.selenium.write(owners, "css", "input[type='text'][id='owner']")
             await this.selenium.write(email, "id", "email")
             await this.selenium.clickElement("className", "add-client-btn")  
+            await this.selenium.sleep(2000)
 
             //check the pop up after finish insert all details, and get the text of the pop up
             let findPopUpSuccess = await this.selenium.isElementExists("css", ".success-pop-up")
@@ -63,13 +63,13 @@ class ActionsPage{
             if(findPopUpSuccess){
                 let getPopUpSuccess = await this.selenium.getTextFromElement("css", ".success-pop-up")
                 console.log(`The pop up message: ${getPopUpSuccess}`)
+                return true
             }
             else if(findPopUpError){
                 let getPopUpError = await this.selenium.getTextFromElement("css", ".error-pop-up")
                 console.log(`The pop up message: ${getPopUpError}`)
+                return false
             }
-
-            console.log("success to add new client")
             } catch (error) {
                 console.error("get error while try to add new client")
             }      

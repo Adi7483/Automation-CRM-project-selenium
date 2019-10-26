@@ -15,13 +15,13 @@ class AnalyticsPageTest {
 
     //The test check how much client have "no" in sold option, before and after adding new client
     async clientThatNotSold(input, searchBy, FirstName, lastName, countryName, ownerName, email, input2, searchBy2){
-        console.log("start counting in client page how much client have NO in the sold option")
-        await this.homePage.navigateToHomePage()
-        await this.homePage.movePages("Clients")
-        let countingClient = await this.clientsPage.countingAndValidate(input, searchBy)
         console.log("start check in analytics page how much client get NO in sold option")
+        await this.homePage.navigateToHomePage()
         await this.homePage.movePages("Analytics")
         let countingAnalytics = await this.analyticstsPage.checkOutstandingClients()
+        console.log("start counting in client page how much client have NO in the sold option")
+        await this.homePage.movePages("Clients")
+        let countingClient = await this.clientsPage.countingAndValidate(input, searchBy)
         console.log("add new client, the basic sold option will be 'NO'")
         await this.homePage.movePages("Actions")
         await this.actionsPage.addNewClient(FirstName, lastName, countryName, ownerName, email)
@@ -30,10 +30,9 @@ class AnalyticsPageTest {
         let countingClientAgain = await this.clientsPage.countingAndValidate(input2, searchBy2)
         console.log("go back to the analytics page to check that the result get bigger by one")
         await this.homePage.movePages("Analytics")
-        let countingAnalytics2 = await this.analyticstsPage.checkOutstandingClients()
-        if(countingClient == countingAnalytics && countingClientAgain == countingAnalytics2){
-        let countingAnalytics2 = await this.analyticstsPage.checkOutstandingClients()
-        console.log(`the test work! number of "NO" in client page: ${countingClient} = number of "NO" in analytics page: ${countingAnalytics} && after add another client, number of "NO" in client page: ${countingClientAgain} =  number of "NO" in analytics page:${countingAnalytics2}`)
+        let countingAnalyticsAgain = await this.analyticstsPage.checkOutstandingClients()
+        if(countingClient == countingAnalytics && countingClientAgain == countingAnalyticsAgain){
+        console.log(`the test work! number of "NO" in client page: ${countingClient} = number of "NO" in analytics page: ${countingAnalytics} && after add another client, number of "NO" in client page: ${countingClientAgain} =  number of "NO" in analytics page:${countingAnalyticsAgain}`)
         }
         else{
            console.error("ERROR: there is problem in the test")
@@ -56,7 +55,7 @@ class AnalyticsPageTest {
             console.log(`the test work! number of email type in analytics page: ${emailCountInAnalytics} = number of email type in client page: ${emailCountInCLient}`)
         }
         else{
-            console.log("ERROR: there is problem in the test")
+            console.error("ERROR: there is problem in the test")
         }
     }
 
@@ -76,7 +75,7 @@ class AnalyticsPageTest {
             console.log(`the test work! the biggest country in analytics page: ${countryName} = is the same in client page: ${countCountry}`)
         }
         else{
-            console.log("ERROR: there is problem in the test")
+            console.error("ERROR: there is problem in the test")
         }
     }
    

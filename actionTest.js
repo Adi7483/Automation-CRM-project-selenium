@@ -18,51 +18,53 @@ class ActionPageTest {
         await this.homePage.navigateToHomePage()
         await this.homePage.movePages("Actions")
         console.log("add new client")
-        await this.actionsPage.addNewClient(FirstName, lastName, countryName, ownerName, email)
+        let checkAddClient = await this.actionsPage.addNewClient(FirstName, lastName, countryName, ownerName, email)
         console.log("check in client page that the new client was added")
         await this.homePage.movePages("Clients")
-        await this.clientsPage.searchAndValidateClient(input, searchBy)
+        let checkResult = await this.clientsPage.searchAndValidateClient(input, searchBy)
+        if(checkAddClient && checkResult){
+            console.log(`The test work, add new client result is:${checkAddClient}, and validat client result is:${checkResult}`)
+        }
+        else{
+            console.error("ERROR in the test")
+        }
     }
 
-    //The test check the update email type option and validate it in clients and analytics page
+    //The test check UPDATE email type client and validate it in client page
     async updateClients(inputName, inputOwner, inputEmail, searchBy){
-        console.log("The test check the 'update' option")
+        console.log("The test check the 'update' option in action page")
         await this.homePage.navigateToHomePage()
-        await this.homePage.movePages("Analytics")
-        console.log("first, check the number of 'email sent' in analytics page")
-        let countEmailClients = await this.analyticstsPage.checkEmailSentClients()
-        console.log("update a client")
         await this.homePage.movePages("Actions")
-        await this.actionsPage.updateCLient(inputName, inputOwner, inputEmail)
+        console.log("update a client")
+        let checkUpdate = await this.actionsPage.updateCLient(inputName, inputOwner, inputEmail)
         console.log("check if the update appear in clients page")
         await this.homePage.movePages("Clients")
-        await this.clientsPage.searchAndValidateClient(inputName, searchBy)
-        console.log("check if the number of 'email sent' is now bigger by one, after the update")
-        await this.homePage.movePages("Analytics")
-        let countNewEmailClients = await this.analyticstsPage.checkEmailSentClients()
-        if(countEmailClients != countNewEmailClients){
-            console.log(`the test work! number of email before update: ${countEmailClients} and after update client the number of email is bigger by one: ${countNewEmailClients}`) 
+        let checkResult = await this.clientsPage.searchAndValidateClientDetais(inputName, searchBy, inputEmail)
+        if(checkUpdate && checkResult){
+            console.log(`the test work! result of update new client is: ${checkUpdate}, and validate the result in client page is: ${checkResult}`) 
         }
         else{
             console.error("ERROR: there is problem in the test")
         }
     }
 
-    //The test add new client, update the email type, and count the new number
-    async addAndUpdate(input, searchBy, FirstName, lastName, countryName, ownerName, email, inputName, ownerName2, email2){
-        console.log("first count in client page how much time 'A' appear in email type")
+    //The test add new client, update his email type, and check if he's exist with the change before and after the update
+    async addAndUpdate(FirstName, lastName, countryName, ownerName, email, input, searchBy, inputName, ownerName2, email2, inputEmail){
+        console.log("first add new client")
         await this.homePage.navigateToHomePage()
-        await this.homePage.movePages("Clients")
-        let countEmailTypeBefore = await this.clientsPage.countingAndValidate(input, searchBy)
-        console.log("add new client in action page, then update this client and give him 'A' in email type")
         await this.homePage.movePages("Actions")
-        await this.actionsPage.addNewClient(FirstName, lastName, countryName, ownerName, email)
-        await this.actionsPage.updateCLient(inputName, ownerName2, email2)
-        console.log("count again in client page how much time 'A' appear in email type and check that the number is bigger by one")
+        let checkAddResult = await this.actionsPage.addNewClient(FirstName, lastName, countryName, ownerName, email)
+        console.log("Check in client page if the new client exist")
         await this.homePage.movePages("Clients")
-        let countEmailTypeAfter = await this.clientsPage.countingAndValidate(input, searchBy)
-        if(countEmailTypeBefore != countEmailTypeAfter){
-            console.log(`the test work! number of email before add and update client: ${countEmailTypeBefore}, and the number of email type after is bigger by one: ${countEmailTypeAfter}`)
+        let checkSearchResult = await this.clientsPage.searchAndValidateClient(input, searchBy)
+        console.log("go back to ACTION page and now update this client")
+        await this.homePage.movePages("Actions")
+        let checkUpdate = await this.actionsPage.updateCLient(inputName, ownerName2, email2)
+        console.log("check in client page if the change appear")
+        await this.homePage.movePages("Clients")
+        let checkUpdateResult = await this.clientsPage.searchAndValidateClientDetais(input, searchBy, inputEmail)
+        if(checkAddResult && checkSearchResult && checkUpdate && checkUpdateResult){
+            console.log(`the test work! add new client is: ${checkAddResult}, search this client in client page is: ${checkSearchResult}, update new client is:${checkUpdate}, and search the new update is: ${checkUpdateResult}   `)
         }
         else{
             console.error("ERROR: there is problem in the test")
@@ -71,6 +73,6 @@ class ActionPageTest {
 }
 
 let clientPageTest = new ActionPageTest();
-clientPageTest.addNewClients("Adi", "Yaacobi", "Sweden", "MartinMassey", "lululemon@lulu.com", "Adi yaacobi", "Name")
-clientPageTest.updateClients("Adi Yaacobi", "Walter White", "b", "Name")
-clientPageTest.addAndUpdate( "A", "Email Type", "Adi", "Yaacobi", "Sweden", "MartinMassey", "lululemon@lulu.com", "Adi Yaacobi", "MartinMassey", "A",  "A", "Email Type")
+clientPageTest.addNewClients("Adi", "Yaacobi", "Sweden", "MartinMassey", "lululemon@lulu.com", "Adi Yaacobi", "Name")
+clientPageTest.updateClients("Adi Yaacobi", "Walter White", "B", "Name")
+clientPageTest.addAndUpdate("Idan", "Yaacobi", "Sweden", "MartinMassey", "lululemon@lulu.com", "Idan Yaacobi", "Name", "Idan Yaacobi", "MartinMassey", "A",  "A", "Email Type", "A")

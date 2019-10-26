@@ -19,8 +19,7 @@ class AnalyticstsPage{
             arrNumber.push(x)
         }
         let success = arrNumber[2]
-        console.log(`The number of outstanding clients in analytics page: ${arrNumber[2]}`)
-        console.log("success to check outstanding client numbers") 
+        console.log(`The number of outstanding clients in analytics page: ${arrNumber[2]}`) 
         return success
         } catch (error) {
             console.error("get error while try to check outstandindg client numbers")
@@ -41,7 +40,6 @@ class AnalyticstsPage{
         }
         let success = arrNumber[1]
         console.log(`The number of email clients sents in analytics page: ${arrNumber[1]}`)
-        console.log("success to check email sent numbers")  
         return success
         } catch (error) {
             console.error("get error while try to check email sent numbers")
@@ -62,7 +60,6 @@ class AnalyticstsPage{
         }
         let success = arrNumber[3]
         console.log(`The name of the 'hottest country' in analytics page: ${arrNumber[3]}`)
-        console.log("success to check biggest country numbers")
         return success
         } catch (error) {
             console.error("get error while try to check biggest country numbers")
