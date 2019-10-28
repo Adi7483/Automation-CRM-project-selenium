@@ -1,6 +1,7 @@
 const {Builder, By, Key , until} = require('selenium-webdriver');
 const path = require('chromedriver').path;
 const chrome = require('selenium-webdriver/chrome');
+const logger = require("./logger")
 let service = new chrome.ServiceBuilder(path).build();
 chrome.setDefaultService(service);
 
@@ -44,10 +45,10 @@ class SelenuimInfra{
             await element.click()
             this.driver.sleep(2000)
             
-            console.log(`Clicked on element with ${locatorType} = ${locatorValue}`)
+            logger.debug(`Clicked on element with ${locatorType} = ${locatorValue}`)
         }
         catch (error) {
-            console.error(`Got error while trying to click on element with ${locatorType} = ${locatorValue}`)
+            logger.error(`Got error while trying to click on element with ${locatorType} = ${locatorValue}`)
         }
     }
 
@@ -63,10 +64,10 @@ class SelenuimInfra{
                 }
             }
             await element.sendKeys(data)
-            console.log(`Send Keys to element with ${locatorType} = ${locatorValue} `)
+            logger.debug(`Send Keys to element with ${locatorType} = ${locatorValue} `)
         }
         catch (error) {
-            console.error(`Got error while trying to send keys to element with ${locatorType} = ${locatorValue}`)
+            logger.error(`Got error while trying to send keys to element with ${locatorType} = ${locatorValue}`)
         }
     }
 
@@ -80,12 +81,12 @@ class SelenuimInfra{
                     element = await this.driver.findElement(By[locatorType](locatorValue))
                 }
             }
-            console.log(`Get text from element with ${locatorType} = ${locatorValue} `)
+            logger.debug(`Get text from element with ${locatorType} = ${locatorValue} `)
             return await element.getText()
         }
         catch (error) {
-            console.error(`Got error while trying to get text from element with ${locatorType} = ${locatorValue}`)
-            console.log(error)
+            logger.error(`Got error while trying to get text from element with ${locatorType} = ${locatorValue}`)
+            logger.error(error)
             return ""
         }
     }
@@ -101,10 +102,10 @@ class SelenuimInfra{
                 }
             }
             await element.clear()
-            console.log(`Clear text from element with ${locatorType} = ${locatorValue} `)
+            logger.debug(`Clear text from element with ${locatorType} = ${locatorValue} `)
         }
         catch (error) {
-            console.error(`Got error while trying to Clear text from element with ${locatorType} = ${locatorValue}`)
+            logger.error(`Got error while trying to Clear text from element with ${locatorType} = ${locatorValue}`)
         }
     }
 
@@ -135,10 +136,10 @@ class SelenuimInfra{
             else{
                 element = await this.driver.findElement(By[locatorType](locatorValue))
             }
-            console.log(`Find element with ${locatorType} = ${locatorValue} `)
+            logger.debug(`Find element with ${locatorType} = ${locatorValue} `)
         }
         catch{
-            console.error(`Got error while trying to find element with ${locatorType} = ${locatorValue}`)
+            logger.error(`Got error while trying to find element with ${locatorType} = ${locatorValue}`)
         }
         return element
     }
@@ -156,7 +157,7 @@ class SelenuimInfra{
             return element
         }
         catch{
-            console.error(`Got error while trying to find element with ${locatorType} = ${locatorValue}`)
+            logger.error(`Got error while trying to find element with ${locatorType} = ${locatorValue}`)
         }
     }
     async sleep(num){

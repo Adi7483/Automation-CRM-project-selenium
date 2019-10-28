@@ -2,6 +2,7 @@ const BasePage = require("./BasePage");
 const ClientsPage = require("./ClientsPage")
 const HometsPage = require("./HomePage")
 const AnalyticstsPage = require("./AnalyticsPage")
+const logger = require("./logger")
 
 class ClientsPageTest {
     constructor() {
@@ -10,57 +11,60 @@ class ClientsPageTest {
         this.homePage = new HometsPage(this.testSelenium)
         this.analyticstsPage = new AnalyticstsPage(this.testSelenium)
     }
-   
+    async main(){
+        await this.clientTest("Adi Yaacobi", "Name")
+        await this.clickClient("nadia", "Name", "nadi")
+        await this.countingAndValidateWord("no", "Sold")
+    }
+
     //The test search name in client page and validate the result
     async clientTest(details, searchOption){
         await this.homePage.navigateToHomePage()
         await this.homePage.movePages("Clients");
-        console.log("start check the 'search' client option")
+        logger.info("start check the 'search' client option")
         let checkResult = await this.clientsPage.searchAndValidateClient(details, searchOption)
         if (checkResult == true){
-            console.log("the test success")
+            logger.info("the search name test work")
         }
         else{
-            console.error("ERROR in the test")
+            logger.error("ERROR in the searhc name test")
         }
     }
 
     //The test check the option to click on client, update the client name, and check if the new client exist
     async clickClient(details, searchOption, updateName){
-        console.log("Check the option to click on client and update his details")
+        logger.info("Check the option to click on client and update his details")
         await this.homePage.navigateToHomePage()
         await this.homePage.movePages("Clients")
         let checkUpdate =  await this.clientsPage.clickOnClientAndUpdate(details, searchOption, updateName)
         if (checkUpdate == true){
-            console.log("the test success")
+            logger.info("the test click on client and update is work")
         }
         else{
-            console.error("ERROR in the test")
+            logger.error("ERROR in the test of click on client and update")
         }
     }
 
     //The test count the "NO" in sold option, in analytics and client page and validate them
     async countingAndValidateWord(details, searchOption){
-        console.log("check client with 'NO' sold in client page")
+        logger.info("check client with 'NO' sold in client page")
         await this.homePage.navigateToHomePage()
         await this.homePage.movePages("Clients")
         let countNoSoldInClient = await this.clientsPage.countingAndValidate(details, searchOption)
-        console.log("check how much client have 'NO' in the sold option in analytics page")
+        logger.info("check how much client have 'NO' in the sold option in analytics page")
         await this.homePage.movePages("Analytics")
         let countNoSold =  await this.analyticstsPage.checkOutstandingClients()
         if(countNoSold == countNoSoldInClient){
-            console.log(`the test work! number of "NO" in analytics page:${countNoSold}, is the same as the number in client page: ${countNoSoldInClient}`)
+            logger.info(`the test of counting "NO" sold option is work. number of "NO" in analytics page:${countNoSold}, is the same as the number in client page: ${countNoSoldInClient}`)
         }
         else{
-            console.error("ERROR: there is problem in the test")
+            logger.error("ERROR: there is problem in the test of counting 'NO' sold option")
         }
     }
 }  
   
 let clientPageTest = new ClientsPageTest();
-clientPageTest.clientTest("Adi Yaacobi", "Name")
-clientPageTest.clickClient("nadia", "Name", "nadi")
-clientPageTest.countingAndValidateWord("no", "Sold")
+clientPageTest.main()
 
 
 
