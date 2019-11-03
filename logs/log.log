@@ -4038,3 +4038,39 @@
 2019-10-28 19:32:56 - [debug]: Get text from element with css = .badge-val div:nth-child(3) 
 2019-10-28 19:32:59 - [debug]: Get text from element with css = .badge-val div:nth-child(3) 
 2019-10-28 19:32:59 - [info]: the test work! the biggest country in analytics page: France = is the same in client page: France
+2019-11-03 13:40:11 - [debug]: Clicked on element with css = input[type='button'][value='Clients']
+2019-11-03 13:40:11 - [info]: start check the 'search' client option
+2019-11-03 13:40:13 - [debug]: Send Keys to element with css = .search-clients input:nth-child(1) 
+2019-11-03 13:40:14 - [debug]: Send Keys to element with className = select-css 
+2019-11-03 13:40:14 - [debug]: Get text from element with className = clientDetails 
+2019-11-03 13:40:14 - [debug]: Get text from element with className = clientDetails 
+2019-11-03 13:40:14 - [debug]: Get text from element with className = clientDetails 
+2019-11-03 13:40:14 - [debug]: Get text from element with className = clientDetails 
+2019-11-03 13:40:14 - [debug]: Get text from element with className = clientDetails 
+2019-11-03 13:40:14 - [info]: the search name test work
+2019-11-03 13:40:14 - [info]: Check the option to click on client and update his details
+2019-11-03 13:40:15 - [debug]: Clicked on element with css = input[type='button'][value='Clients']
+2019-11-03 13:40:15 - [debug]: Send Keys to element with css = .search-clients input:nth-child(1) 
+2019-11-03 13:40:15 - [debug]: Send Keys to element with className = select-css 
+2019-11-03 13:40:15 - [error]: Got error while trying to Clear text from element with css = input[id='name']
+2019-11-03 13:40:15 - [error]: Got error while trying to send keys to element with css = input[id='name']
+2019-11-03 13:40:15 - [error]: Got error while trying to click on element with className = update-client-popup-btn
+2019-11-03 13:40:15 - [error]: Got error while trying to click on element with className = cancel-client-popup-btn
+2019-11-03 13:40:17 - [debug]: Clear text from element with css = input[type='text'][value='nadia'] 
+2019-11-03 13:40:17 - [debug]: Send Keys to element with css = .search-clients input:nth-child(1) 
+2019-11-03 13:40:17 - [debug]: Send Keys to element with className = select-css 
+2019-11-03 13:40:17 - [debug]: Get text from element with css = .clientDetails th:nth-child(1) 
+2019-11-03 13:40:17 - [info]: the test click on client and update is work
+2019-11-03 13:40:17 - [info]: check client with 'NO' sold in client page
+2019-11-03 13:40:18 - [debug]: Clicked on element with css = input[type='button'][value='Clients']
+2019-11-03 13:40:18 - [debug]: Send Keys to element with css = .search-clients input:nth-child(1) 
+2019-11-03 13:40:18 - [debug]: Send Keys to element with className = select-css 
+2019-11-03 13:40:18 - [debug]: Get text from element with css = .page-numbers span:nth-child(2) 
+2019-11-03 13:40:18 - [debug]: Get text from element with css = .page-numbers span:nth-child(4) 
+2019-11-03 13:40:18 - [info]: check how much client have 'NO' in the sold option in analytics page
+2019-11-03 13:40:18 - [debug]: Clicked on element with css = input[type='button'][value='Analytics']
+2019-11-03 13:40:21 - [debug]: Get text from element with css = .badge-val div:nth-child(3) 
+2019-11-03 13:40:24 - [debug]: Get text from element with css = .badge-val div:nth-child(3) 
+2019-11-03 13:40:27 - [debug]: Get text from element with css = .badge-val div:nth-child(3) 
+2019-11-03 13:40:30 - [debug]: Get text from element with css = .badge-val div:nth-child(3) 
+2019-11-03 13:40:30 - [error]: ERROR: there is problem in the test of counting 'NO' sold option
